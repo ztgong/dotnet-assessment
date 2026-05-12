@@ -28,8 +28,31 @@
     {
         public int LengthOfLongestSubstring(string s)
         {
-            // Implement this method
-            return 0;
+            int n = s.Length;
+            int maxLength = 0;
+            // Map to store the last seen index of each character
+            Dictionary<char, int> lastSeen = new Dictionary<char, int>();
+            int left = 0;
+
+            for (int right = 0; right < n; right++)
+            {
+                char currentChar = s[right];
+
+                // If the character is already in the window, move the left pointer
+                // to the right of the last seen position of that character
+                if (lastSeen.ContainsKey(currentChar))
+                {
+                    left = Math.Max(lastSeen[currentChar] + 1, left);
+                }
+
+                // Update/Add the character's last seen index
+                lastSeen[currentChar] = right;
+
+                // Calculate the current window size and update maxLength
+                maxLength = Math.Max(maxLength, right - left + 1);
+            }
+
+            return maxLength;
         }
     }
 }
